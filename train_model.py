@@ -20,15 +20,14 @@ import numpy as np
 import argparse
 import os
 
-ap = argparse.ArgumentParser()                                        
-ap.add_argument("-f", "--fff", help="a dummy argument", default="1") 
-ap.add_argument("-d", "--dataset", type=str, default="dataset path",help="path to dataset")  #dataset path -> replace with dataset path
-ap.add_argument("-p", "--plot", type=str, default="output/train/plot.png",help="path to output loss/accuracy plot") #replace output/train with your train path
-ap.add_argument("-m", "--model", type=str,default="model/mask_detector.model",help="path to output face mask detector model") #replace model/ with your model path
-args = vars(ap.parse_args())
+arg = argparse.ArgumentParser()                                        
+arg.add_argument("-d", "--dataset", type=str, default="dataset")  
+#arg.add_argument("-p", "--plot", type=str, default="output/plot2.png")
+arg.add_argument("-m", "--model", type=str,default="model/mask_detector3.model") #replace model/ with your model path
+args = vars(arg.parse_args())
 
 INIT_LR = 1e-4
-EPOCHS = 20
+EPOCHS = 10
 BS = 32
 
 print("[INFO] loading data...")
@@ -50,7 +49,7 @@ for imagePath in imagePaths:
 data = np.array(data, dtype="float32")
 labels = np.array(labels)
 
-# perform one-hot encoding on the labels
+
 lb = LabelBinarizer()
 labels = lb.fit_transform(labels)
 labels = to_categorical(labels)
@@ -107,6 +106,4 @@ plt.title("Training Loss and Accuracy")
 plt.xlabel("Epoch #")
 plt.ylabel("Loss/Accuracy")
 plt.legend(loc="lower left")
-plt.savefig(args["plot"])
-
-print("[INFO] training complete!")
+plt.savefig("output/plot2.png")
